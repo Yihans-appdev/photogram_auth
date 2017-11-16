@@ -17,25 +17,62 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     
-    <%= 
+  <% @photos.each do |photo| %> 
     
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a href="link">photo owner here</a>
+          <a href="link"><%= photo.user.username %></a>
           <small>
-            Amount of time ago
+            <%= time_ago_in_words(photo.created_at) %> ago
           </small>
         </h3>
       </div>
       
       <div class="panel-body">
         <a href="link_to_photo">
-          <img src="https://i.pinimg.com/736x/e9/6e/7b/e96e7b83e1ee0996898257c4bb7e2c1e--garden-water-water-gardens.jpg" class="img-responsive">
+          <img src="<%= photo.image %>" class="img-responsive">
         </a>
-      </div>
+
+      <% if photo.fans != [] %>
+        <small>
+          <%= photo.fans.pluck(:username).to_sentence %>
+          like this
+        </small>
+      <% end %>
+
+      <% if current_user.likes.find_by(photo_id: photo.id) == nil %>   
+       <form action="/create_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+              <input type="hidden" name="photo_id" value="<%= photo.id %>">
+
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+              <button class="btn btn-link pull-right">
+                <i class="fa fa-fw fa-heart-o"></i>
+
+                Like
+              </button>
+            </form>
+        </p>
+
+      <% else %>
+        <a href="/delete_like/<%= photo.id %>" class="btn btn-link pull-right">
+          <i class="fa fa-fw fa-heart"></i> Unlike
+        </a>
+      
+      <% end %>
+    
+
+    </div>
     
     </div>
+    
+    <% end %>
+    
+    
   </div>
 </div>
 
@@ -53,7 +90,7 @@
       <tr>
         <td><%= photo.caption %></td>
         <td><%= photo.image %></td>
-        <td><%= photo.user_id %></td>
+        <td><%= photo.user.username %></td>
         <td>
           <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
           <% if photo.user_id == current_user.id %>
