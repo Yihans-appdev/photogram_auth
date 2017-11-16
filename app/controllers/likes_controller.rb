@@ -26,9 +26,9 @@ class LikesController < ApplicationController
     save_status = @like.save
 
     if save_status == true
-      redirect_to("/likes/#{@like.id}", :notice => "Like created successfully.")
+      redirect_to("/photos", :notice => "Like created successfully.")
     else
-      render("likes/new.html.erb")
+      render("/photos", :notice => "Error in creating Like")
     end
   end
 
@@ -68,7 +68,10 @@ class LikesController < ApplicationController
     
   def my_likes
     
-    @my_likes = Like.where(user_id: current_user.id)
+    my_likes = Like.where(user_id: current_user.id).pluck(:photo_id)
+    
+    @my_liked_photos = Photo.where(id: my_likes)
+    
   end
   
 end
