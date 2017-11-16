@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    <%= current_user.username%>
+    <%= @user.username%>
   </h1>
 </div>
 
@@ -13,7 +13,18 @@
         <th>User</th>
         <th>Actions</th>
       </tr>
-
+    <% @user_photos.each do |photo| %>
+      <tr>
+        <td><%= photo.caption %></td>
+        <td><%= photo.image %></td>
+        <td><%= photo.user_id %></td>
+        <td>
+          <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+          <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
      
     </table>
   </div>

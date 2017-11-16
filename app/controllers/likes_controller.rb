@@ -64,4 +64,11 @@ class LikesController < ApplicationController
       redirect_back(:fallback_location => "/", :notice => "Like deleted.")
     end
   end
+  
+    
+  def my_likes
+    
+    @my_likes = Like.where(user_id: current_user.id)
+  end
+  
 end

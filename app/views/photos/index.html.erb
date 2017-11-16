@@ -1,8 +1,42 @@
-<div class="page-header">
-  <h1>
-    Photos
-    <a href="/photos/new" class="btn btn-lg btn-success">New Photo</a>
-  </h1>
+
+</hr>
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <a href="/photos/new" class="btn btn-default btn-block">
+        <i class="fa fa-fw fa-plus"></i>
+    
+          Add Photo
+      </a>
+    
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    
+    <%= 
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a href="link">photo owner here</a>
+          <small>
+            Amount of time ago
+          </small>
+        </h3>
+      </div>
+      
+      <div class="panel-body">
+        <a href="link_to_photo">
+          <img src="https://i.pinimg.com/736x/e9/6e/7b/e96e7b83e1ee0996898257c4bb7e2c1e--garden-water-water-gardens.jpg" class="img-responsive">
+        </a>
+      </div>
+    
+    </div>
+  </div>
 </div>
 
 <div class="row">
@@ -22,8 +56,10 @@
         <td><%= photo.user_id %></td>
         <td>
           <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
-          <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% if photo.user_id == current_user.id %>
+            <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>
